@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pheonix OS</title>
+<link rel="icon" type="image/png" href="download.png">
+<html lang="en">   
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            background-image: url('jpg.png'); /* Placeholder for the background image */
+            background-size: cover; /* Make the background cover the entire screen */
+            background-position: center; /* Center the background image */
+            color: white;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 18px;
+            overflow: hidden;
+        }
+        #terminal {
+            text-align: center;
+            padding-top: 50px; /* Move content a bit higher */
+            animation: fadeIn 1s ease-out;
+        }
+        .input-line {
+            display: flex;
+            justify-content: center;
+            margin: 10px;
+        }
+        .input-label {
+            margin-right: 10px;
+        }
+        input {
+            background-color: black;
+            border: 1px solid white;
+            color: white;
+            outline: none;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 16px;
+            padding: 5px;
+            width: 200px;
+        }
+        button {
+            background-color: black;
+            border: 1px solid white;
+            color: white;
+            padding: 8px 16px;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: white;
+            color: black;
+        }
+        .hidden {
+            display: none;
+        }
+        .visible {
+            display: block;
+            animation: fadeIn 1s ease-out;
+        }
+        a {
+            color: white;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        img {
+            width: 150px;
+            height: 150px;
+            margin-bottom: 20px;
+        }
+        .footer {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            text-align: center;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        #post-login-section {
+            margin-top: 100vh; /* Start from below the page */
+            transition: margin-top 0.5s ease, opacity 0.5s ease; /* Smooth transition for margin and opacity */
+            opacity: 0; /* Start hidden */
+        }
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+<body onload="showTime()">
+    <div id="terminal">
+        <!-- SECTION 1: Login Section -->
+        <section id="login-section" class="visible">
+            <img src="IR.png" alt="IR">
+            <p id="generic-welcome">Phoenix International Secure Communications Terminal</p>
+            <div class="input-line">
+                <span class="input-label">Username:</span>
+                <input type="text" id="username">
+            </div>
+            <div class="input-line">
+                <span class="input-label">Password:</span>
+                <input type="password" id="password">
+            </div>
+            <button id="login-button" onclick="login()">Login</button>
+        </section>
+
+        <!-- SECTION 2: Informational Section -->
+        <section id="post-login-section" class="hidden">
+            <p id="welcome-message"></p>
+            <p>Isla Renacida Status: <b style="color:rgb(0, 213, 35);" >SAFE</b></p>
+            <p><b>Latest News:</b></p>
+            <p>Phoenix International expands their operating system access to more employees, including several medium command members as well as most of the Island Rangers.</p>
+            <p><b>Public Files:</b></p>
+            <ul>
+                <li><a id="file1" href="https://docs.google.com/document/d/1GH2i1jdt4SrVJw1B95p1-607pSheY9fEYpoOGQkW7no/edit?usp=sharing" target="_blank">Synergy: First Contact - "Synergy's Arrival" </a></li>
+                <li><a id="file2" href="https://docs.google.com/document/d/1G8fgYcyTsROUKmXwSpgMs6FLwZYTkZaWhFiMr_28E9E/edit?usp=sharing" target="_blank">Company Response - Internal Threat "Synergy"</a></li>
+                <li><a id="file3" href="#" target="_blank">The Involvement of the BIA</a></li>
+                <li><a id="file4" href="#" target="_blank">Operation Safeguard - After Action Report</a></li>
+                <li><a id="file5" href="#" targe    t="_blank">Military Police - Bureau of Internal Affairs</a></li>
+            </ul>
+        </section>
+    </div>
+
+    <div class="footer">
+        Phoenix OS ver.1.5.2 | <span id="time"></span>
+    </div>
+
+    <script>
+        // Transition from Login to Informational Section
+        function login() {
+            let username = document.getElementById("username").value;
+
+            // Autofill "Guest" if no username is entered
+            if (username.trim() === "") {
+                username = "Guest";
+            }
+
+            // Set the personalized welcome message
+            document.getElementById("welcome-message").innerHTML = "Welcome, " + username;
+
+            // Disable the login button to prevent further clicks
+            document.getElementById("login-button").disabled = true;
+
+            // Hide the login section with fade-out effect
+            document.getElementById("login-section").style.opacity = 1;
+            let fadeOutInterval = setInterval(() => {
+                if (document.getElementById("login-section").style.opacity > 0) {
+                    document.getElementById("login-section").style.opacity -= 0.1;
+                } else {
+                    clearInterval(fadeOutInterval);
+                    document.getElementById("login-section").classList.add("hidden");
+
+                    // Show the informational section from the bottom
+                    document.getElementById("post-login-section").style.marginTop = "-100px"; // Adjust to stop a little above center
+                    document.getElementById("post-login-section").style.opacity = 1;
+                }
+            }, 50); // speed of fade-out
+
+            // Show the informational section with fade-in effect
+            setTimeout(() => {
+                document.getElementById("post-login-section").classList.remove("hidden");
+                document.getElementById("post-login-section").classList.add("visible");
+            }, 500); // delay to ensure fade-out completes before fade-in starts
+        }
+
+        // Function to display current time
+        function showTime() {
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const seconds = now.getSeconds().toString().padStart(2, '0');
+            const timeString = `${hours}:${minutes}:${seconds}`;
+
+            document.getElementById("time").textContent = timeString;
+
+            // Update the time every second
+            setTimeout(showTime, 1000);
+        }
+    </script>
+</body>
+</html>
